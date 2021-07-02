@@ -116,7 +116,6 @@ def create_seq_data_set(dataset, num_marks,device):
 
     return dataset
 
-print(device)
 d_train = create_seq_data_set(train, num_marks,device)
 d_val = create_seq_data_set(valid, num_marks,device)
 d_test = create_seq_data_set(test, num_marks,device)

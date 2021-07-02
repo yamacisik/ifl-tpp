@@ -51,7 +51,7 @@ class Sequence(DotDict):
 
         if marks is not None:
             if not isinstance(marks, torch.Tensor):
-                marks = torch.tensor(marks,device = 'cpu')
+                marks = torch.tensor(marks,device = device)
             self.marks = marks.long()
         else:
             self.marks = None
