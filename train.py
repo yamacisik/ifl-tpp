@@ -42,15 +42,15 @@ parser.add_argument('-b', '--batch', type=int,
                     help='batch size. (default: {})'.format(batch_size))
 parser.add_argument('--lr', default=learning_rate, type=float,
                     help="set the optimizer learning rate. (default {})".format(learning_rate))
-parser.add_argument('--hidden', type=int,
+parser.add_argument('-hidden','--hidden', type=int,
                     dest='hidden_size', default=context_size,
                     help='number of hidden units. (default: {})'.format(context_size))
-parser.add_argument('--mark_embedding', type=int,
+parser.add_argument('-mark_embedding','--mark_embedding', type=int,
                     dest='hidden_size', default=mark_embedding_size,
                     help='number of hidden units. (default: {})'.format(mark_embedding_size))
 parser.add_argument('-mix_componenets', '--mix_componenets', type=int, default=num_mix_components,
                     help='mix componenets')
-parser.add_argument('--lambda-l2', type=float, default=regularization,
+parser.add_argument('-lambda_l2','--lambda-l2', type=float, default=regularization,
                     help='regularization loss.')
 parser.add_argument('--dev-ratio', type=float, default=0.1,
                     help='override the size of the dev dataset.')
