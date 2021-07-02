@@ -2,7 +2,9 @@ import dpp
 import numpy as np
 import torch
 from copy import deepcopy
-torch.set_default_tensor_type(torch.cuda.FloatTensor)
+
+
+# torch.set_default_tensor_type(torch.cuda.FloatTensor)
 
 
 # Config
@@ -29,6 +31,8 @@ patience = 50          # After how many consecutive epochs without improvement o
 # Load the data
 dataset = dpp.data.load_dataset(dataset_name)
 d_train, d_val, d_test = dataset.train_val_test_split(seed=seed)
+
+training_events= d_train.total_num_events
 
 dl_train = d_train.get_dataloader(batch_size=batch_size, shuffle=True)
 dl_val = d_val.get_dataloader(batch_size=batch_size, shuffle=False)
@@ -60,7 +64,9 @@ def aggregate_loss_over_dataloader(dl):
     with torch.no_grad():
         for batch in dl:
             total_loss += -model.log_prob(batch).sum()
-            total_count += batch.size
+            # total_count += batch.size
+            total_count += batch.mask.sum().item()
+
     return total_loss / total_count
 
 
@@ -71,10 +77,14 @@ training_val_losses = []
 
 for epoch in range(max_epochs):
     model.train()
+    epoch_train_loss = 0
     for batch in dl_train:
         opt.zero_grad()
-        loss = -model.log_prob(batch).mean()
+        # loss = -model.log_prob(batch)
+        loss = -model.log_prob(batch).sum()
         loss.backward()
+
+        epoch_train_loss += loss.detach()
         opt.step()
 
     model.eval()
@@ -95,6 +105,8 @@ for epoch in range(max_epochs):
     if impatient >= patience:
         print(f'Breaking due to early stopping at epoch {epoch}')
         break
+
+    epoch_train_loss = epoch_train_loss/training_events
 
     if epoch % display_step == 0:
         print(f"Epoch {epoch:4d}: loss_train_last_batch = {loss.item():.1f}, loss_val = {loss_val:.1f}")

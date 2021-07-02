@@ -75,7 +75,7 @@ class SequenceDataset(torch.utils.data.Dataset):
         )
 
     def train_val_test_split(
-            self, train_size=0.6, val_size=0.2, test_size=0.2, seed=None, shuffle=True,
+            self, train_size=0.8, val_size=0.1, test_size=0.1, seed=None, shuffle=True,
     ) -> Tuple["SequenceDataset", "SequenceDataset", "SequenceDataset"]:
         """Split the sequences into train, validation and test subsets."""
         if train_size < 0 or val_size < 0 or test_size < 0:
