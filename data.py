@@ -43,15 +43,15 @@ class Sequence(DotDict):
         marks: Mark corresponding to each event. Note that the length is 1 shorter than
             for inter_times, shape (seq_len - 1,)
     """
-    def __init__(self, inter_times: torch.Tensor, marks: Optional[torch.Tensor] = None, **kwargs):
+    def __init__(self, inter_times: torch.Tensor, marks: Optional[torch.Tensor] = None,device = 'cpu', **kwargs):
         if not isinstance(inter_times, torch.Tensor):
-            inter_times = torch.tensor(inter_times)
+            inter_times = torch.tensor(inter_times,device = device)
         # The inter-event times should be at least 1e-10 to avoid numerical issues
         self.inter_times = inter_times.float().clamp(min=1e-10)
 
         if marks is not None:
             if not isinstance(marks, torch.Tensor):
-                marks = torch.tensor(marks)
+                marks = torch.tensor(marks,device = 'cpu')
             self.marks = marks.long()
         else:
             self.marks = None

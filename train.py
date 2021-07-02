@@ -108,7 +108,7 @@ def create_seq_data_set(dataset, num_marks,device):
             marks=seq.get("marks"),
             t_start=seq.get("t_start"),
             t_end=seq.get("t_end")
-        ).to(device)
+        )
         for seq in dataset["sequences"]
     ]
     dataset = SequenceDataset(sequences=sequences, num_marks=num_marks)
@@ -116,7 +116,6 @@ def create_seq_data_set(dataset, num_marks,device):
     return dataset
 
 print(device)
-print(test['sequences'])
 d_train = create_seq_data_set(train, num_marks,device)
 d_val = create_seq_data_set(valid, num_marks,device)
 d_test = create_seq_data_set(test, num_marks,device)
