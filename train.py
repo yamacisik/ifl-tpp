@@ -4,7 +4,7 @@ import pickle
 import torch
 import random
 from evaluation import get_prediction_for_all_events,get_prediction_for_last_events
-from sklearn.metrics import f1_score
+# from sklearn.metrics import f1_score
 import torch.utils.data as data_utils
 
 from pathlib import Path
@@ -215,13 +215,13 @@ print(f'Negative log-likelihood:\n'
 
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_all_events(model, dl_test)
 all_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
-all_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
+# all_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_last_events(model, dl_test)
 last_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
-last_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
+# last_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
 
 
 print('All event RMSE:{} ,last event RMSE {}'.format(all_RMSE.item(), last_RMSE.item()))
-print('All event Accuracy:{} ,last event Accuracy {}'.format(all_f1, last_f1))
+# print('All event Accuracy:{} ,last event Accuracy {}'.format(all_f1, last_f1))
 
 # torch.save(model.state_dict(), 'intensity_free_model')
