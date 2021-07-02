@@ -101,7 +101,7 @@ with open(dataset_path + 'test.pkl', 'rb') as f:
     test = pickle.load(f)
 
 
-def create_seq_data_set(dataset, num_marks):
+def create_seq_data_set(dataset, num_marks,device):
     sequences = [
         Sequence(
             inter_times=get_inter_times(seq),
@@ -115,10 +115,11 @@ def create_seq_data_set(dataset, num_marks):
 
     return dataset
 
-
-d_train = create_seq_data_set(train, num_marks)
-d_val = create_seq_data_set(valid, num_marks)
-d_test = create_seq_data_set(test, num_marks)
+print(device)
+print(test['sequences'])
+d_train = create_seq_data_set(train, num_marks,device)
+d_val = create_seq_data_set(valid, num_marks,device)
+d_test = create_seq_data_set(test, num_marks,device)
 
 dl_train = d_train.get_dataloader(batch_size=batch_size, shuffle=False)
 dl_val = d_val.get_dataloader(batch_size=batch_size, shuffle=False)
