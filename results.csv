@@ -1,0 +1,2 @@
+Dataset,Learning Rate,Early Step Threshold,L2 Reg,Test Loss,ALL_RMSE,ALL_Micro F-1,Last_RMSE,Last_Micro F-1,Time_per_epoch
+

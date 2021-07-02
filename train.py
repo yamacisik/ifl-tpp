@@ -5,10 +5,8 @@ import torch
 import random
 from evaluation import get_prediction_for_all_events,get_prediction_for_last_events
 from sklearn.metrics import f1_score
-import torch.utils.data as data_utils
-
-from pathlib import Path
-from sklearn.model_selection import train_test_split
+import time
+import csv
 
 from data import Sequence, SequenceDataset
 from model import LogNormMix
@@ -40,7 +38,7 @@ parser.add_argument('-e', '--epochs', type=int, default=1000,
 parser.add_argument('-b', '--batch', type=int,
                     dest='batch_size', default=batch_size,
                     help='batch size. (default: {})'.format(batch_size))
-parser.add_argument('--lr', default=learning_rate, type=float,
+parser.add_argument('-lr','--lr', default=learning_rate, type=float,
                     help="set the optimizer learning rate. (default {})".format(learning_rate))
 parser.add_argument('-hidden','--hidden', type=int,
                     dest='hidden_size', default=context_size,
@@ -156,7 +154,7 @@ best_loss = np.inf
 best_model = deepcopy(model.state_dict())
 training_val_losses = []
 training_events = d_train.total_num_events
-
+start_time = time.time()
 for epoch in range(args.epochs):
     epoch_train_loss = 0
     model.train()
@@ -218,6 +216,16 @@ actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_fo
 last_RMSE = (((predicted_times - actual_times) / actual_times+1e-7) ** 2).mean().sqrt()
 last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 
+time = (time.time() - start_time)/epoch
+print('time elapsed %.2f sec for %d epoches' % (time.time() - start_time, epoch))
+
+results_to_record = [str(args.task), str(args.lr),'NAN',
+                         str(args.lambda_l2), str(final_loss_test.item()), str(all_RMSE), str(all_f1),
+                     str(last_RMSE), str(last_f1)]
+
+with open(r'results.csv', 'a', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(results_to_record)
 
 print(f'All event RMSE:{all_RMSE.item():.4f} ,last event RMSE {last_RMSE.item():.4f}')
 print(f'All event F-1:{all_f1:.4f} ,last event F-1 {last_f1:.4f}')
