@@ -7,6 +7,6 @@ do
 python  train.py  -t simulated -lr $lr -lambda_l2 $lambda_l2
 python  train.py  -t mimic -lr $lr -lambda_l2 $lambda_l2
 python  train.py  -t stackoverflow -lr $lr -lambda_l2 $lambda_l2
-python  train.py  -t retweet-lr $lr -lambda_l2 $lambda_l2
+python  train.py  -t retweet -lr $lr -lambda_l2 $lambda_l2
 done
 done

@@ -41,12 +41,12 @@ parser.add_argument('-b', '--batch', type=int,
 parser.add_argument('-lr','--lr', default=learning_rate, type=float,
                     help="set the optimizer learning rate. (default {})".format(learning_rate))
 parser.add_argument('-hidden','--hidden', type=int,
-                    dest='hidden_size', default=context_size,
-                    help='number of hidden units. (default: {})'.format(context_size))
+                    dest='hidden_size', default=16,
+                    help='number of hidden units. (default: {})'.format(16))
 parser.add_argument('-mark_embedding','--mark_embedding', type=int,
-                    dest='mark_embedding', default=mark_embedding_size,
+                    dest='mark_embedding', default=32,
                     help='number of hidden units. (default: {})'.format(mark_embedding_size))
-parser.add_argument('-mix_componenets', '--mix_componenets', type=int, default=num_mix_components,
+parser.add_argument('-mix_componenets', '--mix_componenets', type=int, default=32,
                     help='mix componenets')
 parser.add_argument('-lambda_l2','--lambda-l2', type=float, default=regularization,
                     help='regularization loss.')
