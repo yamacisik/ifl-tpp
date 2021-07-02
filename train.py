@@ -46,7 +46,7 @@ parser.add_argument('-hidden','--hidden', type=int,
                     dest='hidden_size', default=context_size,
                     help='number of hidden units. (default: {})'.format(context_size))
 parser.add_argument('-mark_embedding','--mark_embedding', type=int,
-                    dest='hidden_size', default=mark_embedding_size,
+                    dest='mark_embedding', default=mark_embedding_size,
                     help='number of hidden units. (default: {})'.format(mark_embedding_size))
 parser.add_argument('-mix_componenets', '--mix_componenets', type=int, default=num_mix_components,
                     help='mix componenets')
@@ -130,7 +130,7 @@ model = LogNormMix(
     num_marks=d_train.num_marks,
     mean_log_inter_time=mean_log_inter_time,
     std_log_inter_time=std_log_inter_time,
-    context_size=args.hidden,
+    context_size=args.hidden_size,
     mark_embedding_size=args.mark_embedding,
     rnn_type=rnn_type,
     num_mix_components=args.mix_componenets,
