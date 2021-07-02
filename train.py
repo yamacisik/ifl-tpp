@@ -69,6 +69,7 @@ torch.manual_seed(args.seed)
 random.seed(args.seed)
 np.random.seed(args.seed)
 use_cuda = torch.cuda.is_available()
+print(use_cuda)
 if use_cuda:
     device = 'cuda'
     # torch.set_default_tensor_type(cuda_tensor)
