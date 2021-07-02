@@ -108,7 +108,7 @@ def create_seq_data_set(dataset, num_marks,device):
             inter_times=get_inter_times(seq),
             marks=seq.get("marks"),
             t_start=seq.get("t_start"),
-            t_end=seq.get("t_end")
+            t_end=seq.get("t_end"),device = device
         )
         for seq in dataset["sequences"]
     ]
