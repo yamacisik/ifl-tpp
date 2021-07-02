@@ -196,7 +196,8 @@ for epoch in range(max_epochs):
     epoch_train_loss = epoch_train_loss / training_events
 
     if epoch % display_step == 0:
-        print(f"Epoch {epoch:4d}: Training loss = {epoch_train_loss.item():.4f}, loss_val = {loss_val:.4f}")
+        print(f"Epoch {epoch:4d}: Training loss = {epoch_train_loss.item():.4f}, loss_val = "
+              f"{loss_val:.4f}, loss_test = {loss_test:.4f}")
 
 # Evaluation
 model.load_state_dict(best_model)
@@ -221,7 +222,7 @@ last_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt
 last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 
 
-print('All event RMSE:{} ,last event RMSE {}'.format(all_RMSE.item(), last_RMSE.item()))
-# print('All event Accuracy:{} ,last event Accuracy {}'.format(all_f1, last_f1))
+print(f'All event RMSE:{all_RMSE.item():.4f} ,last event RMSE {last_RMSE.item():.4f}')
+print(f'All event F-1:{all_f1:.4f} ,last event F-1 {last_f1:.4f}')
 
-# torch.save(model.state_dict(), 'intensity_free_model')
+torch.save(model.state_dict(), 'intensity_free_model'+dataset_name)
