@@ -54,7 +54,7 @@ parser.add_argument('--lambda-l2', type=float, default=regularization,
                     help='regularization loss.')
 parser.add_argument('--dev-ratio', type=float, default=0.1,
                     help='override the size of the dev dataset.')
-parser.add_argument('--task', type=str, default='simulated',
+parser.add_argument('-t','--task', type=str, default='simulated',
                     help='task type')
 
 parser.add_argument('-seed', '--seed', type=int, default=42,
@@ -81,7 +81,6 @@ else:
     # torch.set_default_tensor_type(cpu_tensor)
     device = 'cpu'
 
-
 # ------Reproducibility-------
 
 def get_inter_times(seq: dict):
@@ -95,7 +94,6 @@ dataset_path = 'data/' + dataset_name + '/'  # run dpp.data.list_datasets() to s
 
 with open(dataset_path + 'train.pkl', 'rb') as f:
     train = pickle.load(f)
-
 with open(dataset_path + 'valid.pkl', 'rb') as f:
     valid = pickle.load(f)
 with open(dataset_path + 'test.pkl', 'rb') as f:
@@ -132,17 +130,16 @@ model = LogNormMix(
     num_marks=d_train.num_marks,
     mean_log_inter_time=mean_log_inter_time,
     std_log_inter_time=std_log_inter_time,
-    context_size=context_size,
-    mark_embedding_size=mark_embedding_size,
+    context_size=args.hidden,
+    mark_embedding_size=args.mark_embedding,
     rnn_type=rnn_type,
-    num_mix_components=num_mix_components,
+    num_mix_components=args.mix_componenets,
 )
 model = model.to(device)
 
-opt = torch.optim.Adam(model.parameters(), weight_decay=regularization, lr=learning_rate)
+opt = torch.optim.Adam(model.parameters(), weight_decay=args.lambda_l2, lr=args.lr)
 # Traning
 print('Starting training...')
-
 
 def aggregate_loss_over_dataloader(dl):
     total_loss = 0.0
