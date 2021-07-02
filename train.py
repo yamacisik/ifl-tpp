@@ -215,10 +215,10 @@ print(f'Negative log-likelihood:\n'
 
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_all_events(model, dl_test)
 all_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
-all_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
+all_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_last_events(model, dl_test)
 last_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
-last_f1= f1_score(predicted_marks.detach().numpy(),actual_marks.detach().numpy(),average ='micro')
+last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 
 
 print('All event RMSE:{} ,last event RMSE {}'.format(all_RMSE.item(), last_RMSE.item()))
