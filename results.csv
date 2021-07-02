@@ -1,4 +1,1 @@
 Dataset,Learning Rate,Early Step Threshold,L2 Reg,Test Loss,ALL_RMSE,ALL_Micro F-1,Last_RMSE,Last_Micro F-1,Time_per_epoch
-
-simulated,0.0001,NAN,1e-05,1.8014881610870361,"tensor(951.7413, device='cuda:0', grad_fn=<SqrtBackward>)",0.5514145322167262,"tensor(21.7980, device='cuda:0', grad_fn=<SqrtBackward>)",0.56
-simulated,0.0001,NAN,1e-05,1.8014881610870361,951.7412719726562,0.5514145322167262,21.797985076904297,0.56

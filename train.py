@@ -219,7 +219,7 @@ last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),avera
 time = (time.time() - start_time)/epoch
 results_to_record = [str(args.task), str(args.lr),'NAN',
                          str(args.lambda_l2), str(final_loss_test.item()), str(all_RMSE.item()), str(all_f1.item()),
-                     str(last_RMSE.item()), str(last_f1.item())]
+                     str(last_RMSE.item()), str(last_f1.item()),str(time)]
 
 with open(r'results.csv', 'a', newline='') as f:
     writer = csv.writer(f)
