@@ -36,20 +36,20 @@ def get_prediction_for_all_events(model, dl):
         ## Arrival Time Prediction
         predicted_times = inter_time_dist.mean
         all_predicted_times = \
-            torch.nn.utils.rnn.pack_padded_sequence(predicted_times.T, lengths, batch_first=False,
+            torch.nn.utils.rnn.pack_padded_sequence(predicted_times.T, lengths.cpu(), batch_first=False,
                                                     enforce_sorted=False)[0]
         all_actual_times = \
-            torch.nn.utils.rnn.pack_padded_sequence(inter_times.T, lengths, batch_first=False, enforce_sorted=False)[0]
+            torch.nn.utils.rnn.pack_padded_sequence(inter_times.T, lengths.cpu(), batch_first=False, enforce_sorted=False)[0]
         all_event_time_values.append(all_actual_times[:-1])
         all_event_time_predictions.append(all_predicted_times[:-1])
 
         #         ## Mark Prediction
         predicted_marks = torch.log_softmax(model.mark_linear(context), dim=-1).argmax(-1)
         predicted_marks = \
-            torch.nn.utils.rnn.pack_padded_sequence(predicted_marks.T, lengths, batch_first=False,
+            torch.nn.utils.rnn.pack_padded_sequence(predicted_marks.T, lengths.cpu(), batch_first=False,
                                                     enforce_sorted=False)[0]
         actual_marks = \
-            torch.nn.utils.rnn.pack_padded_sequence(batch.marks.T, lengths, batch_first=False, enforce_sorted=False)[0]
+            torch.nn.utils.rnn.pack_padded_sequence(batch.marks.T, lengths.cpu(), batch_first=False, enforce_sorted=False)[0]
         all_actual_marks.append(actual_marks)
         all_predicted_marks.append(predicted_marks)
 
