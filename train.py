@@ -157,7 +157,7 @@ best_model = deepcopy(model.state_dict())
 training_val_losses = []
 training_events = d_train.total_num_events
 
-for epoch in range(max_epochs):
+for epoch in range(args.epochs):
     epoch_train_loss = 0
     model.train()
     for batch in dl_train:
