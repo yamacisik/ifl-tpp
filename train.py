@@ -217,8 +217,6 @@ last_RMSE = (((predicted_times - actual_times) / actual_times+1e-7) ** 2).mean()
 last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 
 time = (time.time() - start_time)/epoch
-print('time elapsed %.2f sec for %d epoches' % (time.time() - start_time, epoch))
-
 results_to_record = [str(args.task), str(args.lr),'NAN',
                          str(args.lambda_l2), str(final_loss_test.item()), str(all_RMSE), str(all_f1),
                      str(last_RMSE), str(last_f1)]
