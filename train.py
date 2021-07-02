@@ -24,11 +24,11 @@ num_mix_components = 64  # Number of components for a mixture model
 rnn_type = "GRU"  # What RNN to use as an encoder {"RNN", "GRU", "LSTM"}
 
 # Training config
-batch_size = 64  # Number of sequences in a batch
+batch_size = 32  # Number of sequences in a batch
 regularization = 1e-5  # L2 regularization parameter
 learning_rate = 1e-4  # Learning rate for Adam optimizer
 max_epochs = 5  # For how many epochs to train
-display_step = 1  # Display training statistics after every display_step
+display_step = 5  # Display training statistics after every display_step
 patience = 50  # After how many consecutive epochs without improvement of val loss to stop training
 
 TYPE_SIZE_DICT = {'retweet': 3, 'bookorder': 8, 'meme': 5000, 'mimic': 75, 'stackoverflow': 22,
@@ -212,10 +212,10 @@ print(f'Negative log-likelihood:\n'
       f' - Test:  {final_loss_test:.4f}')
 
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_all_events(model, dl_test)
-all_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
+all_RMSE = (((predicted_times - actual_times) / actual_times+1e-7) ** 2).mean().sqrt()
 all_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 actual_times, predicted_times, actual_marks, predicted_marks = get_prediction_for_last_events(model, dl_test)
-last_RMSE = (((predicted_times - actual_times) / actual_times) ** 2).mean().sqrt()
+last_RMSE = (((predicted_times - actual_times) / actual_times+1e-7) ** 2).mean().sqrt()
 last_f1= f1_score(predicted_marks.cpu().numpy(),actual_marks.cpu().numpy(),average ='micro')
 
 
