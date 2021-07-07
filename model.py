@@ -372,7 +372,7 @@ class LogNormMix(RecurrentTPP):
         log_scales = raw_params[..., self.num_mix_components: (2 * self.num_mix_components)]
         log_weights = raw_params[..., (2 * self.num_mix_components):]
 
-        log_scales = clamp_preserve_gradients(log_scales, -5.0, 1.0)
+        log_scales = clamp_preserve_gradients(log_scales, -5.0, 0.0)
         log_weights = torch.log_softmax(log_weights, dim=-1)
         return LogNormalMixtureDistribution(
             locs=locs,
