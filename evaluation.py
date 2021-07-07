@@ -121,3 +121,4 @@ def get_prediction_for_last_events(model, dl):
     predicted_marks = torch.cat(predicted_marks)
 
     return event_time_values, event_time_predictions, actual_marks, predicted_marks
+

@@ -241,3 +241,23 @@ class SequenceDataset(torch.utils.data.Dataset):
     @property
     def total_num_events(self):
         return sum(len(seq) - 1 for seq in self.sequences)
+
+
+def get_inter_times(seq: dict):
+    """Get inter-event times from a sequence."""
+    return np.ediff1d(np.concatenate([[seq["t_start"]], seq["arrival_times"], [seq["t_end"]]]))
+
+
+def create_seq_data_set(dataset, num_marks,device):
+    sequences = [
+        Sequence(
+            inter_times=get_inter_times(seq),
+            marks=seq.get("marks"),
+            t_start=seq.get("t_start"),
+            t_end=seq.get("t_end"),device = device
+        )
+        for seq in dataset["sequences"]
+    ]
+    dataset = SequenceDataset(sequences=sequences, num_marks=num_marks)
+
+    return dataset
