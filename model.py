@@ -187,9 +187,9 @@ class RecurrentTPP(nn.Module):
         # You can comment this section of the code out if you don't want to implement the log_survival_function
         # for the distribution that you are using. This will make the likelihood computation slightly inaccurate,
         # but the difference shouldn't be significant if you are working with long sequences.
-        # last_event_idx = batch.mask.sum(-1, keepdim=True).long()  # (batch_size, 1)
-        # log_surv_all = inter_time_dist.log_survival_function(inter_times)  # (batch_size, seq_len)
-        # log_surv_last = torch.gather(log_surv_all, dim=-1, index=last_event_idx).squeeze(-1)  # (batch_size,)
+        last_event_idx = batch.mask.sum(-1, keepdim=True).long()  # (batch_size, 1)
+        log_surv_all = inter_time_dist.log_survival_function(inter_times)  # (batch_size, seq_len)
+        log_surv_last = torch.gather(log_surv_all, dim=-1, index=last_event_idx).squeeze(-1)  # (batch_size,)
 
         if self.num_marks > 1:
             mark_logits = torch.log_softmax(self.mark_linear(context), dim=-1)  # (batch_size, seq_len, num_marks)
@@ -197,9 +197,9 @@ class RecurrentTPP(nn.Module):
             log_p += mark_dist.log_prob(batch.marks)  # (batch_size, seq_len)
         log_p *= batch.mask  # (batch_size, seq_len)
 
-        return log_p.sum(-1)
+        # return log_p.sum(-1)
 
-        # return log_p.sum(-1) + log_surv_last  # (batch_size,)
+        return log_p.sum(-1) + log_surv_last  # (batch_size,)
 
     def sample(self, t_end: float, batch_size: int = 1, context_init: torch.Tensor = None) -> Batch:
         """Generate a batch of sequence from the model.
@@ -372,7 +372,7 @@ class LogNormMix(RecurrentTPP):
         log_scales = raw_params[..., self.num_mix_components: (2 * self.num_mix_components)]
         log_weights = raw_params[..., (2 * self.num_mix_components):]
 
-        log_scales = clamp_preserve_gradients(log_scales, -5.0, 0.0)
+        log_scales = clamp_preserve_gradients(log_scales, -5.0, 2.0)
         log_weights = torch.log_softmax(log_weights, dim=-1)
         return LogNormalMixtureDistribution(
             locs=locs,
